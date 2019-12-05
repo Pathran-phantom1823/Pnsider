@@ -1,66 +1,72 @@
 <template>
-  <v-card
-    class="mt-4 mx-auto"
-    max-width="400"
-  >
-    <v-sheet
-      class="v-sheet--offset mx-auto"
-      color="cyan"
-      elevation="12"
-      max-width="calc(100% - 32px)"
-    >
-      <v-sparkline
-        :labels="labels"
-        :value="value"
-        color="white"
-        line-width="2"
-        padding="16"
-      ></v-sparkline>
-    </v-sheet>
-
-    <v-card-text class="pt-0">
-      <div class="title font-weight-light mb-2">User Registrations</div>
-      <div class="subheading font-weight-light grey--text">Last Campaign Performance</div>
-      <v-divider class="my-2"></v-divider>
-      <v-icon
-        class="mr-2"
-        small
-      >
-        mdi-clock
-      </v-icon>
-      <span class="caption grey--text font-weight-light">last registration 26 minutes ago</span>
-    </v-card-text>
-  </v-card>
+    <div id="app">
+        <div id="content">
+            <canvas ref="chart"></canvas>
+        </div>
+    </div>
 </template>
+
 <script>
-  export default {
-    data: () => ({
-      labels: [
-        '12am',
-        '3am',
-        '6am',
-        '9am',
-        '12pm',
-        '3pm',
-        '6pm',
-        '9pm',
-      ],
-      value: [
-        200,
-        675,
-        410,
-        390,
-        310,
-        460,
-        250,
-        240,
-      ],
-    }),
-  }
+    import Chart from 'chart.js';
+
+    export default {
+        name: 'app',
+        mounted() {
+            var chart = this.$refs.chart;
+            var ctx = chart.getContext("2d");
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["Good", "Bad"],
+                    datasets: [{
+                        label: 'Feelings in center life',
+                        data: [12, 19],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+    }
 </script>
+
 <style>
-  .v-sheet--offset {
-    top: -24px;
-    position: relative;
-  }
+    #app {
+        font-family: 'Avenir', Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: center;
+        color: #2c3e50;
+        margin-top: 60px;
+    }
+    #content {
+        margin: auto;
+        width: 1024px;
+        background-color: #FFFFFF;
+        padding: 20px;
+    }
 </style>
