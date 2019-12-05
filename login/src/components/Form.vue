@@ -79,8 +79,8 @@ export default {
                 let password = this.password
 		   		this.$store.dispatch('login', { username, password })
 		   		.then((res)=>{
-                        if(res.username == "admin"){
-                            this.$router.push('/about')
+                        if(res.data.username === 'admin'){
+                            this.$router.push('/analytics')
                         }else{
                             this.$router.push('/Home')
                         }

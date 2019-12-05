@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <h1>How do you feel in the center?</h1>
+        <h1>How was your relationship with your teacher?</h1>
         <div id="content">
             <canvas ref="chart"></canvas>
         </div>
@@ -9,18 +9,19 @@
 
 <script>
     import Chart from 'chart.js';
+
     export default {
         name: 'app',
         mounted() {
             var chart = this.$refs.chart;
             var ctx = chart.getContext("2d");
             new Chart(ctx, {
-                type: 'pie',
+                type: 'bar',
                 data: {
-                    labels: ["Comfortable", "Happy", "Homesick", "Sad"],
+                    labels: ["Respectful", "Courteus", "Educational", "Helpful"],
                     datasets: [{
                         label: 'Feelings in center life',
-                        data: [12, 19 ,34, 5],
+                        data: [12, 19, 23,54],
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
                             'rgba(54, 162, 235, 0.2)',

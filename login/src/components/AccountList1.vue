@@ -23,7 +23,7 @@
 
                                 <v-text-field v-model="middlename" :rules="nameRules" label="Last Name" required></v-text-field>
 
-                                <v-select :items="batch" v-model="batch" :rules="batchRules" label="Standard"></v-select>
+                                <v-select :items="batch" v-model="batch" :rules="batchRules" label="Batch"></v-select>
 
                                 <v-text-field v-model="username" :rules="nameRules" label="Username" required></v-text-field>
 

@@ -1,10 +1,10 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Vue from "vue"
+import VueRouter from "vue-router"
+import Home from "../views/Home.vue"
 import Accounts from "@/components/AccountList1.vue"
-import Analytics from '@/components/Analytics.vue'
-import Landing from "@/components/users/Landing.vue";
-import Form from "@/views/Form.vue";
+import Analytics from "@/views/Dashboard.vue"
+import Landing from "@/components/users/Landing.vue"
+import Form from "@/views/Form.vue"
 import store from '@/store'
 
 Vue.use(VueRouter);
