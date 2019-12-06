@@ -1,11 +1,11 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
-import Home from "../views/Home.vue"
-import Accounts from "@/components/AccountList1.vue"
-import Analytics from "@/views/Dashboard.vue"
+// import Home from "../views/Home.vue"
+import Analytics from "@/components/analytics/Analytics2.vue"
 import Landing from "@/components/users/Landing.vue"
 import Form from "@/views/Form.vue"
 import Login from "@/components/adminLogin" 
+
 // import store from '@/store'
 
 Vue.use(VueRouter);
@@ -14,7 +14,7 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: Home,
+    component: Analytics,
     // beforeEnter: (to, from, next) => {
     //   if (store.getters.isLoggedIn) {
     //     next("/about");
@@ -46,22 +46,22 @@ const routes = [
         requiresAuth:true
       }
   },
-  {
-    path: "/accounts2021",
-    name: "accounts2021",
-    component: Accounts,
-    meta:{
-      requiresAuth:true
-    }
-  },
-  {
-    path: "/analytics",
-    name: "analytics",
-    component:Analytics,
-    meta:{
-      requiresAuth:true
-    }
-  },
+  // {
+  //   path: "/accounts2021",
+  //   name: "accounts2021",
+  //   component: Accounts,
+  //   meta:{
+  //     requiresAuth:true
+  //   }
+  // },
+  // {
+  //   path: "/analytics",
+  //   name: "analytics",
+  //   component:Analytics,
+  //   meta:{
+  //     requiresAuth:true
+  //   }
+  // },
   {
     path: "/Home",
     name: "home",

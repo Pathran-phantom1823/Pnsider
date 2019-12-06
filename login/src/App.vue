@@ -50,6 +50,7 @@
         </v-list>
     </v-navigation-drawer>
   </v-container>
+  <!-- <Analytics2 /> -->
     <v-content>
         <router-view />
     </v-content>
@@ -57,9 +58,14 @@
 </template>
 
 <script>
+// import Analytics2 from "./components/analytics/Analytics2.vue"
+
+
 export default {
     name: 'App',
-    components: {},
+    components: {
+      // Analytics2
+    },
     data: () => ({
       drawer: null,
          items: [
