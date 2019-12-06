@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
+
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
+		user: sessionStorage.getItem('user') || '',
   		status: '',
   		token: localStorage.getItem('token') || '',
-  		user : {}
 	},
 	mutations: {
 		auth_request(state){

@@ -1,6 +1,7 @@
 <template>
   <!-- <v-card> -->
-  <v-navigation-drawer expand-on-hover absolute permanent>
+    <div>
+  <v-navigation-drawer expand-on-hover absolute permanent v-if="isAdmin">
     <template v-slot:prepend>
       <v-list>
         <v-list-item>
@@ -23,22 +24,63 @@
       <v-list-item-group>
         <v-list-item
           v-for="(item, i) in items"
-          :key="i"
+          :key="i"  :to="item.to"
         >
           <v-list-item-icon>
-            <v-icon v-text="item.icon"></v-icon>
+            <v-icon v-text="item.icon" ></v-icon>
           </v-list-item-icon>
-          <v-list-item-content>
+          <v-list-item-content link>
             <v-list-item-title v-text="item.title"></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
     </v-list>
   </v-navigation-drawer>
+  <!-- ======================================================================== -->
+
+  <v-navigation-drawer expand-on-hover absolute permanent v-if="isUser">
+    <template v-slot:prepend>
+      <v-list>
+        <v-list-item>
+          <v-list-item-avatar>
+            <v-img src="https://www.pngrepo.com/png/41173/170/admin-with-cogwheels.png"></v-img>
+          </v-list-item-avatar>
+        </v-list-item>
+
+        <v-list-item link two-line>
+          <v-list-item-content>
+            <v-list-item-title class="title" v-model="info.username">{{info.username}}</v-list-item-title>
+            <v-list-item-subtitle v-model="info.email">{{info.email}}</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </template>
+
+    <v-divider></v-divider>
+    <v-list>
+      <v-list-item-group>
+        <v-list-item
+          v-for="(item, i) in itemForUser"
+          :key="i"  :to="item.to"
+        >
+          <v-list-item-icon>
+            <v-icon v-text="item.icon" ></v-icon>
+          </v-list-item-icon>
+          <v-list-item-content link>
+            <v-list-item-title v-text="item.title"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
+  </v-navigation-drawer>
+  <div>
+    <router-view/>
+  </div>
   <!-- <ul id="dashboard">
       <li v-for="item in items" v-bind:key="item.title">{{ item.message }}</li>
   </ul>-->
   <!-- </v-card> -->
+  </div>
 </template>
 
 <script>
@@ -52,17 +94,27 @@ export default {
       email: "jane@yahoo.com"
     },
     items: [
-      { title: "Summary/Analytics", icon: "assessment" },
-      { title: "2021", icon: "account_box" },
+      { to: '/analytics',title: "Summary/Analytics", icon: "assessment" },
+      { to: '/accounts2021', title: "2021", icon: "account_box" },
+      { title: "2022", icon: "account_box" }
+    ],
+    itemForUser: [
+      { to: '/analytics',title: "Summary/Analytics", icon: "assessment" },
+      { to: '/accounts2021', title: "2021", icon: "account_box" },
       { title: "2022", icon: "account_box" }
     ]
   }),
-  computed: {
-    isLoggedIn: function() {
-      return this.$store.getters.isLoggedIn;
-    }
-  },
   methods: {
+    isUser: function() {
+      if(sessionStorage.getItem('username') != "admin"){
+          return this.$store.getters.isUser;
+      }
+    },
+     isAdmin: function() {
+      if(sessionStorage.getItem('username') == "admin"){
+          return this.$store.getters.isAdmin;
+      }
+    },
     logout: function() {
       this.$store.dispatch("logout").then(() => {
         this.$router.push("/");
