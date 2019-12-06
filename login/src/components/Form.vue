@@ -1,9 +1,9 @@
 <template>
   <div id="background">
-    <v-flex justify-center>
-      <h1 class="subtitle-110 text-center">PNsider</h1>
-
-      <v-card class="mx-auto card" max-width="400">
+    <center>
+    <v-flex justify-center class="card">
+        <h1 class="subtitle-110 text-center">PNsider</h1><br/>
+      <v-card class="mx-auto " max-width="400">
         <v-container>
           <center>
             <h1>Admin</h1>
@@ -27,13 +27,12 @@
                 @click:append="show1 = !show1"
               ></v-text-field>
               <v-btn class="mr-4" @click="login" color="green">submit</v-btn>
-              <v-btn>clear</v-btn>
             </v-container>
           </form>
           <br />
         </v-container>
       </v-card>
-    </v-flex>
+    </v-flex></center>
   </div>
 </template>
 
@@ -57,7 +56,7 @@ h2 {
   color: white;
 }
 .card {
-  margin-top: 1%;
+  margin-top: 15%;
 }
 #image {
   width: 40%;
