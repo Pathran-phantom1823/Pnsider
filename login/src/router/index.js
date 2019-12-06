@@ -15,7 +15,7 @@ const routes = [
     name: "home",
     component: Home,
     beforeEnter: (to, from, next) => {
-      if (store.getters.isLoggedIn) {
+      if (localStorage.getItem("username") == "admin") {
         next("/about");
       } else {
         next();
@@ -68,11 +68,16 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.getters.isLoggedIn) {
+    if (store.getters.isAdmin) {
       next()
       return
     }
-    next('/') 
+    else if(store.getters.isUser){
+      next() 
+      return
+    }
+    next('/')
+   
   } else {
     next() 
   }
