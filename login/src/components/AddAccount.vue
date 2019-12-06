@@ -13,10 +13,6 @@
 
                     <v-text-field v-model="fname" :rules="requiredRules" label="First Name" required></v-text-field>
 
-                     <v-text-field v-model="lnaname" :rules="requiredRules" label="Last Name" required></v-text-field>
-
-                     <v-text-field v-model="mname" :rules="requiredRules" label="Last Name" required></v-text-field>
-
                     <v-text-field v-model="batch" :rules="requiredRules" label="Batch" required></v-text-field>
 
                     <v-text-field v-model="username" :rules="requiredRules" label="Username" required></v-text-field>
@@ -50,8 +46,6 @@ export default {
             show2: false,
             valid: true,
             fname: '',
-            lname: '',
-            mname: '',
             batch: '',
             username: '',
             password: '',
@@ -77,9 +71,7 @@ export default {
         },
         create: function () {
             let data = {
-                firstname: this.fname,
-                lastname: this.lname,
-                middlename: this.mname,
+                fullname: this.fname,
                 batch: this.batch,
                 username: this.username,
                 email: this.email,
@@ -88,7 +80,7 @@ export default {
             createStudent(data)
                 .then(data => {
                     this.$emit('createStudent', data.data);
-                    this.email =this.fname = this.lname = this.mname =  this.password = this.username = this.fullname = this.batch = '';
+                    this.email =this.fname =  this.password = this.username = this.batch = this.batch = '';
                     this.dialog = false;
                 })
                 .catch(err => alert(err.message));

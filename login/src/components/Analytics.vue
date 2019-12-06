@@ -15,7 +15,7 @@
             var chart = this.$refs.chart;
             var ctx = chart.getContext("2d");
             new Chart(ctx, {
-                type: 'pie',
+                type: 'bar',
                 data: {
                     labels: ["Comfortable", "Happy", "Homesick", "Sad"],
                     datasets: [{

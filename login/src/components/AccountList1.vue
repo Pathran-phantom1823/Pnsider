@@ -17,11 +17,7 @@
                             </v-card-title>
                             <v-form ref="form" v-model="valid" @submit.prevent="create">
 
-                                <v-text-field v-model="firstname" :rules="nameRules" label="First Name" required></v-text-field>
-
-                                <v-text-field v-model="lastname" :rules="nameRules" label="Last Name" required></v-text-field>
-
-                                <v-text-field v-model="middlename" :rules="nameRules" label="Last Name" required></v-text-field>
+                                <v-text-field v-model="fullname" :rules="nameRules" label="Full Name" required></v-text-field>
 
                                 <v-select :items="batch" v-model="batch" :rules="batchRules" label="Batch"></v-select>
 
@@ -79,18 +75,10 @@ export default {
             students: [],
             dialog: false,
             headers: [{
-                    text: 'First Name',
+                    text: 'Full Name',
                     align: 'left',
                     sortable: false,
-                    value: 'firstname',
-                },
-                {
-                    text: 'Last Name',
-                    value: 'lastname',
-                },
-                {
-                    text: 'Middle Name',
-                    value: 'middlename',
+                    value: 'fullname',
                 },
                 {
                     text: 'Batch',
@@ -116,9 +104,7 @@ export default {
             ],
             studentId: 0,
             editedIndex: -1,
-            firstname: '',
-            lastname: '',
-            middlename: '',
+            fullname: '',
             username: '',
             email: '',
             password: '',
@@ -161,11 +147,9 @@ export default {
         },
         editStudent(item) {
             this.add = false
-            this.firstname = item.firstname;
-            this.lastname = item.lastname;
-            this.middlename = item.middlename
+            this.fullname = item.fullname;
             this.batch = item.batch,
-                this.username = item.username
+            this.username = item.username
             this.email = item.email
             this.studentId = item._id
             this.password = item.password
@@ -179,9 +163,7 @@ export default {
         },
         create: function () {
             let data = {
-                firstname: this.firstname,
-                lastname: this.lastname,
-                middlename: this.middlename,
+                fullname: this.fullname,
                 batch: this.batch,
                 username: this.username,
                 email: this.email,
@@ -193,7 +175,7 @@ export default {
                     getStudents()
                         .then(data => this.students = data.data)
                         .catch((err => alert(err)));
-                    this.email = this.firstname = this.lastname = this.middlename = this.password = this.username = this.fullname = this.batch = '';
+                    this.email = this.fullname = this.password = this.username = this.batch = this.batch = '';
                     this.dialog = false;
                 })
                 .catch(err => alert(err.message));
@@ -201,9 +183,7 @@ export default {
         update() {
             window.console.log(this.studentId)
             let data = {
-                firstname: this.firstname,
-                lastname: this.lastname,
-                middlename: this.middlename,
+                fullname: this.fullname,
                 batch: this.batch,
                 username: this.username,
                 email: this.email,

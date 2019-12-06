@@ -1,32 +1,68 @@
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const port = process.env.PORT ||5000;
-const userRoute = require('./routes/student.route')
-//const userRoute = require('./routes/student.route');
-const staffRotue = require('./routes/staff.route');
-const loginRoute = require('./routes/login')
-const DB = require('./connectDB')
-
-
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+var bodyParser = require("body-parser");
+var app = require('express')();
+var express = require('express');
+var http = require("http").Server(app)
+var port = process.env.PORT || 5000;
+var mongoose = require('mongoose');
+var cors = require('cors')
+//var bcrypt = require('bcrypt');
+var update = require("./model/Student")
+var addStudent = require("./student/create");
+var retreive = require("./student/retrieveStudent")
+var question = require("./question/createquestions")
 app.use(cors());
 
-DB.connect()
+mongoose.connect('mongodb://localhost:27017/students', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+  .then(() => console.log('Now connected to MongoDB!'))
+  .catch(err => console.error('Something went wrong', err));
 
-app.get('/',(req,res) =>{
-    console.log(req.body)
-    console.log('hello world')
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+  console.log("we're connected")
 });
 
-app.use('/student',userRoute)
 
-app.use('/staff', staffRotue)
-app.use('/login',loginRoute )
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.listen(port, (err) => {
-    console.log(`listening to ${port}`)
+app.use(bodyParser.json())
+
+app.use(bodyParser.urlencoded({
+    extended: true
+  }));
+
+app.use(express.static("public"));
+
+app.post('/student/create', function (req, res) {
+    addStudent.createStudent(req,res)
 })
+
+app.post('/question/create', function (req, res) {
+  question.createStudent(req,res)
+})
+
+app.get('/accounts/retrieveAll', function (req, res) {
+    retreive.retrieveStudents(req, res)
+})
+
+app.put('/account/update/:id', (req, res) => {
+  let options = { new: true };
+    update.findByIdAndUpdate(req.params.id, req.body.data , options, (err, student) => {
+      if (err) return res.status(404).send({message: err.message});
+      return res.send({ message: 'note updated!', student });
+    });
+  });
+
+app.delete('/account/delete/:id', (req,res) => {
+  update.findByIdAndRemove(req.params.id, (err) => {
+    if (err) return res.status(404).send({message: err.message});
+    return res.send({ message: 'note deleted!' });
+  });
+});
+
+http.listen(port, function () {
+    console.log('listening on *:' + port);
+});

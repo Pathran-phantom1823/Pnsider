@@ -1,11 +1,10 @@
 <template>
 <div id="background">
-    <center>
     <v-flex justify-center>
         <v-card class="mx-auto card" max-width="400">
             <v-container>
                 <center>
-                    <h1>Admin</h1>
+                    <h1>Student</h1>
                 </center>
                 <form id="form">
                     <v-container>
@@ -18,7 +17,7 @@
                 <br />
             </v-container>
         </v-card>
-    </v-flex></center>
+    </v-flex>
 </div>
 </template>
 
@@ -74,8 +73,8 @@ export default {
     },
     methods: {
 		 	login(){
-                 if(this.username == "admin" && this.password == "pn"){
-                     this.$router.push('/about')
+                 if(this.username == "student" && this.password == "batch2021"){
+                     this.$router.push('/form')
                  }
              }
 		}

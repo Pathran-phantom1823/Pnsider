@@ -5,7 +5,8 @@ import Accounts from "@/components/AccountList1.vue"
 import Analytics from "@/views/Dashboard.vue"
 import Landing from "@/components/users/Landing.vue"
 import Form from "@/views/Form.vue"
-import store from '@/store'
+import Login from "@/components/adminLogin" 
+// import store from '@/store'
 
 Vue.use(VueRouter);
 
@@ -14,15 +15,28 @@ const routes = [
     path: "/",
     name: "home",
     component: Home,
-    beforeEnter: (to, from, next) => {
-      if (store.getters.isLoggedIn) {
-        next("/about");
-      } else {
-        next();
-      }
+    // beforeEnter: (to, from, next) => {
+    //   if (store.getters.isLoggedIn) {
+    //     next("/about");
+    //   } else {
+    //     next();
+    //   }
 
-    },
+    // },
   },
+  {
+  path: "/student",
+  name: "student",
+  component: Login,
+  // beforeEnter: (to, from, next) => {
+  //   if (store.getters.isLoggedIn) {
+  //     next("/about");
+  //   } else {
+  //     next();
+  //   }
+
+  // },
+},
   {
     path: "/about",
     name: "about",
@@ -66,16 +80,16 @@ const router = new VueRouter({
   routes
 });
 
-router.beforeEach((to, from, next) => {
-  if(to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.getters.isLoggedIn) {
-      next()
-      return
-    }
-    next('/') 
-  } else {
-    next() 
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   if(to.matched.some(record => record.meta.requiresAuth)) {
+//     if (store.getters.isLoggedIn) {
+//       next()
+//       return
+//     }
+//     next('/') 
+//   } else {
+//     next() 
+//   }
+// })
 
 export default router;

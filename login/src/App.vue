@@ -1,7 +1,7 @@
 <template>
 <v-app>
   <v-container>
-    <v-app-bar app color="blue" v-if="isLoggedIn" dark>
+    <v-app-bar app color="blue" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
        <v-spacer></v-spacer>
         <v-btn icon @click="logout">

@@ -166,7 +166,9 @@
 </template>
 
 <script>
-import axios from "axios";
+import {
+    createQuestion
+} from '@/axios/axios.js'
 export default {
     data() {
         return {
@@ -191,15 +193,31 @@ export default {
         };
     },
     methods: {
-        submit() {
-                axios.post("localhost:3000/answers/added", this.centerLife, this.ademicLife)
-                    .then(() => {
-                        alert("Added Successfully")
-                    })
-                    .catch(() =>{
-                      alert("error")
-                    })
-        }
+
+        submit: function () {
+            let data = {
+                q1: this.question1,
+                q2: this.question2,
+                q3: this.question3,
+                q4: this.question4,
+                q5: this.question5,
+                q6: this.question6,
+                q7: this.question7,
+                q8: this.question8,
+                q9: this.question9,
+                q10: this.question10,
+                q11: this.question11,
+                q12: this.question12,
+
+            }
+            createQuestion(data)
+                .then(() => {
+                    this.$emit('createQuestion', data.data);
+                    window.location.reload()
+                })
+                .catch(err => alert(err.message));
+        },
+
     }
 };
 </script>
