@@ -1,7 +1,7 @@
 <template>
 <div id="background">
     <v-flex justify-center>
-        <h1 class="subtitle-110 text-center">GoEco</h1>
+        <h1 class="subtitle-110 text-center">PNsider</h1>
 
         <v-card class="mx-auto card" max-width="400">
             <v-container>
@@ -52,6 +52,8 @@ h2 {
 </style>
 
 <script>
+import axios from 'axios'
+
 export default {
     data() {
         return {
@@ -75,17 +77,29 @@ export default {
     },
     methods: {
 		 	login: function () {
-		   		let username = this.username 
-                let password = this.password
-		   		this.$store.dispatch('login', { username, password })
-		   		.then((res)=>{
-                        if(res.data.username === 'admin'){
-                            this.$router.push('/analytics')
-                        }else{
-                            this.$router.push('/Home')
-                        }
-                   })
-		   		.catch(err => window.console.log(err))
+                let data = {
+                    username: this.username,
+                    password: this.password
+                }
+                   // this.$store.dispatch('login', { username, password })
+                axios
+                .post('http://localhost:5000/login', data)
+                .then(res => {
+                    console.log("RESPONSE HERE!")
+                    //roouterr push
+                    
+                    console.log(res)
+                    if(res.data.username === 'admin') {
+                        //admin
+                        this.$router.push({path: '/student/dashboard'})
+                    } else {
+                        //student
+                        this.$router.push({path: '/student/dashboard'})
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                })
 		   	}
 		}
 };

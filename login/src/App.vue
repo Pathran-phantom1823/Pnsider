@@ -1,101 +1,89 @@
 <template>
-<v-app>
-  <v-container>
-    <v-app-bar app color="blue" v-if="isLoggedIn" dark>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-       <v-spacer></v-spacer>
-        <v-btn icon @click="logout">
-        <v-icon>mdi-logout</v-icon>
-      </v-btn>
-    </v-app-bar>
-    <v-navigation-drawer height="910" class="overflow-hidden" v-model="drawer" absolute temporary>
+  <!-- <v-card> -->
+  <v-navigation-drawer expand-on-hover absolute permanent>
+    <template v-slot:prepend>
+      <v-list>
         <v-list-item>
-            <v-list-item-avatar>
-                
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-                <v-list-item-title>GoEco</v-list-item-title>
-            </v-list-item-content>
+          <v-list-item-avatar>
+            <v-img src="https://www.pngrepo.com/png/41173/170/admin-with-cogwheels.png"></v-img>
+          </v-list-item-avatar>
         </v-list-item>
 
-        <v-divider></v-divider>
+        <v-list-item link two-line>
+          <v-list-item-content>
+            <v-list-item-title class="title" v-model="info.username">{{info.username}}</v-list-item-title>
+            <v-list-item-subtitle v-model="info.email">{{info.email}}</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </template>
 
-        <v-list dense>
-            <v-list-item link  @click="analytics">
-                <v-list-item-action>
-                    <v-icon>mdi-home</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title>Dashboard</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-            <v-list-item link @click="show2021">
-                <v-list-item-action>
-                    <v-icon>mdi-account</v-icon>
-                    <!-- <i class="fad fa-clipboard-list"></i> -->
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title>Student List</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-            <v-list-item link>
-                <v-list-item-action>
-                    <v-icon>mdi-information</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title>About Us</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-        </v-list>
-    </v-navigation-drawer>
-  </v-container>
-    <v-content>
-        <router-view />
-    </v-content>
-</v-app>
+    <v-divider></v-divider>
+    <v-list>
+      <v-list-item-group>
+        <v-list-item
+          v-for="(item, i) in items"
+          :key="i"
+        >
+          <v-list-item-icon>
+            <v-icon v-text="item.icon"></v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
+  </v-navigation-drawer>
+  <!-- <ul id="dashboard">
+      <li v-for="item in items" v-bind:key="item.title">{{ item.message }}</li>
+  </ul>-->
+  <!-- </v-card> -->
 </template>
 
 <script>
 export default {
-    name: 'App',
-    components: {},
-    data: () => ({
-      drawer: null,
-         items: [
-          { title: 'Dashboard', icon: 'dashboard' },
-          { title: 'Account', icon: 'account_box' },
-          { title: 'Admin', icon: 'gavel' }
-        ]
-    }),
-    computed: {
-        isLoggedIn: function () {
-            return this.$store.getters.isLoggedIn
-        }
+  name: "App",
+  components: {},
+  data: () => ({
+    drawer: null,
+    info: {
+      username: "Jane Repollo",
+      email: "jane@yahoo.com"
     },
-     methods: {
-      logout: function () {
-        this.$store.dispatch('logout')
-        .then(() => {
-          this.$router.push('/')
-        })
-      },
-      show2021(){
-        this.$router.push('/accounts2021')
-      },
-      analytics(){
-          this.$router.push('/analytics')
-      }
-    },
-    created: function () {
-      this.$http.interceptors.response.use(undefined, function (err) {
-        return new Promise(function () {
-          if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-            this.$store.dispatch('logout')
-          }
-          throw err;
-        });
-      });
+    items: [
+      { title: "Summary/Analytics", icon: "assessment" },
+      { title: "2021", icon: "account_box" },
+      { title: "2022", icon: "account_box" }
+    ]
+  }),
+  computed: {
+    isLoggedIn: function() {
+      return this.$store.getters.isLoggedIn;
     }
+  },
+  methods: {
+    logout: function() {
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push("/");
+      });
+    },
+    show2021() {
+      this.$router.push("/accounts2021");
+    },
+    analytics() {
+      this.$router.push("/analytics");
+    }
+  },
+  created: function() {
+    this.$http.interceptors.response.use(undefined, function(err) {
+      return new Promise(function() {
+        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+          this.$store.dispatch("logout");
+        }
+        throw err;
+      });
+    });
+  },
 };
 </script>

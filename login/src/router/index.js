@@ -49,7 +49,7 @@ const routes = [
     }
   },
   {
-    path: "/Home",
+    path: "/student/dashboard",
     name: "home",
     component: Landing
   },
