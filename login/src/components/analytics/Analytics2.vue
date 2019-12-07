@@ -61,9 +61,11 @@ export default {
       axios
         .post("http://localhost:5000/staff/summary/2")
         .then(res => {
-          for (var i = 0; i < res.data.data.length; i++) {
-            this.expenses.push(res.data.data[i]);
-          }
+          // for (var i = 0; i < res.data.data.length; i++) {
+          //   // this.expenses.push(res.data.data[i]);
+
+          // }
+           this.expenses.push({_id: "Jane"})
           this.total = res.data.data.length;
         })
         .catch(err => {

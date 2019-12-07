@@ -1,7 +1,7 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
 // import Home from "../views/Home.vue"
-import Analytics from "@/components/analytics/Analytics2.vue"
+import Analytics from "@/components/analytics/Analytics.vue"
 import Landing from "@/components/users/Landing.vue"
 import Form from "@/views/Form.vue"
 import Login from "@/components/adminLogin" 

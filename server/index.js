@@ -22,7 +22,7 @@ mongoose.connect('mongodb://localhost:27017/students', {
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
-  console.log("we're connected")
+  console.log("Connected!")
 });
 
 
@@ -36,32 +36,39 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static("public"));
 
-app.post('/student/create', function (req, res) {
-    addStudent.createStudent(req,res)
+// app.post('/student/create', function (req, res) {
+//     addStudent.createStudent(req,res)
+// })
+
+// app.post('/question/create', function (req, res) {
+//   question.createStudent(req,res)
+// })
+
+// app.get('/accounts/retrieveAll', function (req, res) {
+//     retreive.retrieveStudents(req, res)
+// })
+
+// app.put('/account/update/:id', (req, res) => {
+//   let options = { new: true };
+//     update.findByIdAndUpdate(req.params.id, req.body.data , options, (err, student) => {
+//       if (err) return res.status(404).send({message: err.message});
+//       return res.send({ message: 'note updated!', student });
+//     });
+//   });
+
+// app.delete('/account/delete/:id', (req,res) => {
+//   update.findByIdAndRemove(req.params.id, (err) => {
+//     if (err) return res.status(404).send({message: err.message});
+//     return res.send({ message: 'note deleted!' });
+//   });
+// });
+
+app.post('/staff/summary/:id', (req, res) => {
+    console.log("Summary wa kaabot")
+    let item1 = [{num: "Jane"}, {num: "Joy"}, {num: "Jessan"}]
+    console.log(item1)
+    res.send(item1)
 })
-
-app.post('/question/create', function (req, res) {
-  question.createStudent(req,res)
-})
-
-app.get('/accounts/retrieveAll', function (req, res) {
-    retreive.retrieveStudents(req, res)
-})
-
-app.put('/account/update/:id', (req, res) => {
-  let options = { new: true };
-    update.findByIdAndUpdate(req.params.id, req.body.data , options, (err, student) => {
-      if (err) return res.status(404).send({message: err.message});
-      return res.send({ message: 'note updated!', student });
-    });
-  });
-
-app.delete('/account/delete/:id', (req,res) => {
-  update.findByIdAndRemove(req.params.id, (err) => {
-    if (err) return res.status(404).send({message: err.message});
-    return res.send({ message: 'note deleted!' });
-  });
-});
 
 http.listen(port, function () {
     console.log('listening on *:' + port);

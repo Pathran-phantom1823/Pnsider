@@ -9,6 +9,7 @@ const bcrypt = require('bcryptjs')
 
 router.post('/answer', (req, res) =>{
     let studentID = mongoose.Types.ObjectId('5dce4e9f4ed64817c8a05e43')
+    console.log(req.data , "Here na ang ma save")
     let data = {
         studentID: studentID,
         categories:{
@@ -16,6 +17,7 @@ router.post('/answer', (req, res) =>{
             centerLife: req.body.centerLife
         }
     };
+    console.log(data)
     let post = new Post(data);
     post.save()
     .then(() =>{
