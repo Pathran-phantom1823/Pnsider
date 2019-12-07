@@ -1,19 +1,20 @@
-const Post = require('../model/Post');
+const Post = require('../model/Answer');
 
 function analytics(category, number) {
     return new Promise((resolve, reject) => {
         //kulang og match para sa date, batch
+        //mangayo ko date para sa match
         Post.aggregate([
             {
                 $match:{
-                    timestamp:{ $lt: new Date(), $gt:new Date(Date.now() - 12096e5)}
+                    timestamp:{ $lte: new Date(), $gt:new Date(Date.now() - 12096e5)}
                 }
             }, 
             {
                 $group: {
                     _id: `$categories.${category}.Q${number}`,
                     answers: { $sum: 1 },
-                    timestamp:{  $addToSet: '$timestamp' }
+                    timestamp:{  $first: '$timestamp' }
                 }
             },
             {
@@ -59,16 +60,16 @@ function getStudents(data, projection){
         .sort({timestamp: 1})
         .then( data =>{
             if(data){
-                resolve(data)
+                resolve(data);
             }else{
-                resolve('not users')
+                resolve('not users');
             }
         })
         .catch(err =>{
-            console.log(err)
-            reject(err)
-        })
-    })
+            console.log(err);
+            reject(err);
+        });
+    });
 }
 
 
@@ -84,4 +85,4 @@ module.exports = {
     getLength,
     getStudents
 
-}
+};

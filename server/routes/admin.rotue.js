@@ -2,10 +2,10 @@
 const express = require('express');
 const router = express.Router();
 const Student = require('../model/Student');
-const Staff = require('../model/admin')
-const Post = require('../model/Post')
-const studentController = require('../modules/Student')
-const query = require('../modules/analytics')
+const Staff = require('../model/admin');
+const Post = require('../model/Answer');
+const studentController = require('../modules/Student');
+const query = require('../modules/analytics');
 
 
 
@@ -91,6 +91,7 @@ router.get('/report/summary/:number/students', (req, res) => {
 
 
 router.post('/report/summary/:number', async (req, res) => {
+    console.log(new Date('2019-12-07'))
     let number = req.params.number
     let length = await query.getLength();
     if (req.params.number > 5) {

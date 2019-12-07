@@ -1,17 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const Post = require(__dirname+'/../model/Post');
+const Post = require(__dirname+'/../model/Answer');
 const mongoose = require('mongoose');
 
 
 router.post('/answers', (req, res) =>{
     let studentID = mongoose.Types.ObjectId('5deb002dc07ba02d50eecd88');
+    console.log(data)
     let data = {
         studentID: studentID,
         categories:{
             academicLife:req.body.academicLife,
             centerLife: req.body.centerLife
-        }
+        },
+        //timestamp:
     };
     let post = new Post(data);
     post.save()
