@@ -7,7 +7,7 @@ function analytics(category, number) {
         Post.aggregate([
             {
                 $match:{
-                    timestamp:{ $lte: new Date(), $gt:new Date(Date.now() - 12096e5)}
+                    timestamp:{ $lte: new Date(), $gte:new Date(Date.now() - 12096e5)}
                 }
             }, 
             {
@@ -36,6 +36,8 @@ function analytics(category, number) {
     });
 }
 
+
+//NOTE ::::::::::: filter data by date from user
 function getLength(){
     return new Promise((resolve, reject) =>{
        // {$gt:filter.rangeDate, $lt:filter.date}
@@ -49,10 +51,11 @@ function getLength(){
     });
 }
 
-function getStudents(data, projection){
+function getStudentsInfo(data, projection){
     return new Promise((resolve, reject) =>{
         let select = 'firstname lastname gender batch id';
-        let filter = {timestamp:{$lte:data.date}};
+        let endDate = new Date().setDate(data.date.getDate()+14);
+        let filter = {timestamp:{$gte:new Date(data.date), $lte:new Date(endDate)}};
         filter[`categories.academicLife.Q${data.questionNumber}`] = "bad";
 
         Post.find(filter, projection)
@@ -83,6 +86,6 @@ function getStudents(data, projection){
 module.exports = {
     analytics,
     getLength,
-    getStudents
+    getStudentsInfo
 
 };

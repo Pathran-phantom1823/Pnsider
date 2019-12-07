@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 var PostSchema = new Schema({
     studentID: {
@@ -7,17 +7,18 @@ var PostSchema = new Schema({
         required: true,
         ref:'Student'
     },
-    categories:[{
+    categories:{
         academicLife: {
             type:Object
         },
         centerLife: {
             type: Object 
         }
-    }],
+    },
     timestamp:{
         type: Date,
+        default: new Date()
     }
     
 });
-module.exports = mongoose.model('Post', PostSchema)
+module.exports = mongoose.model('Post', PostSchema);
