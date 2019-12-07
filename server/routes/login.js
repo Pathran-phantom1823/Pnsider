@@ -1,14 +1,15 @@
-
 const express = require('express')
 const router = express.Router();
-const find = require('../modules/User')
+const find = require('../modules/Student')
 const Student = require('../model/Student')
-const Staff = require('../model/Staff')
+const Staff = require('../model/admin')
 const account = require('../modules/authenticate')
 
-router.post('/login', (req, res) => {
+router.post('/', (req, res) => {
+
     async function login() {
         try {
+            console.log(req.body.username)
             let filter = { username: req.body.username }
             if (req.body.username == "admin") {
                 userinfo = await find.findUser(Staff, filter)
@@ -19,39 +20,19 @@ router.post('/login', (req, res) => {
             if (userinfo != "not found") {
                 account.validate(userinfo, req.body.password)
                     .then(data => {
-                        console.log(data)
                         res.json(data)
                     })
                     .catch(err => {
                         res.status(500).send(err)
                     });
             } else {
-                res.status(404).send('not found')
+                res.status(404).send('user not found')
             }
         } catch (err) {
             res.status(500).send(err)
         }
     }
     login()
-    // Student.findOne({username: req.body.username})
-    // .then(doc =>{
-    //   if(doc){
-    //      // console.log(bcrypt.compareSync(req.body.password,doc.password))
-    //     account.validate(doc, req.body.password)
-    //     .then(data =>{ 
-    //         console.log(data)
-    //         res.json(data)
-    //     })
-    //     .catch(err =>{
-    //         res.status(500).send(err)
-    //     });
-    //   }else{
-    //       res.status(404).json({message: 'Account not found'})
-    //   }
-    // })
-    // .catch(err => {
-    //     res.status(400).json({err: err.message})
-    // })
 });
 
 module.exports = router;

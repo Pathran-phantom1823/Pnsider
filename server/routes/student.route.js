@@ -1,14 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const Student = require(__dirname+'/../model/Student');
 const Post = require(__dirname+'/../model/Post');
 const mongoose = require('mongoose');
-const account = require('../modules/authenticate')
-const bcrypt = require('bcryptjs')
 
 
-router.post('/answer', (req, res) =>{
-    let studentID = mongoose.Types.ObjectId('5dce4e9f4ed64817c8a05e43')
+router.post('/answers', (req, res) =>{
+    let studentID = mongoose.Types.ObjectId('5deb002dc07ba02d50eecd88');
     let data = {
         studentID: studentID,
         categories:{
@@ -27,6 +24,18 @@ router.post('/answer', (req, res) =>{
     });
     
 });
+
+router.get('/previuosAnswers', (req, res) => {
+     let studentID;
+    Post.find({studentID: studentID})
+    .then(doc =>{
+        res.json(doc)
+    })
+    .catch(err =>{
+        res.status(500).send(err)
+    })
+})
+
 
 
 module.exports = router

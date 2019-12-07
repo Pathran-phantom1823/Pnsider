@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-var url = 'mongodb://localhost:27017/PN';
+var url = 'mongodb://localhost:27017/PNsider';
 
 module.exports.connect = function(){
     mongoose.connect(url,{

@@ -1,30 +1,62 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs')
+const Schema = mongoose.Schema
 
-var Schema = new mongoose.Schema({
-    fullname: {type:String},
-    batch: {type:String},
-    username: {type:String,  unique:true},
-    email: {type: String},
-    password: {type: String}
- });
 
- Schema.statics.addStudent = async function (subscriber){
-   var Subscriber = new this(subscriber);
-   var result =  await Subscriber.save(subscriber);
-   console.log(result);
-   return result;
-}
+var StudentSchema = new Schema({
+    username:{
+        type: String,
+        required: true
+    },
+    password:{
+        type: String,
+        required: true
+    },
+    firstname:{
+        type:String,
+        required: true
+    },
+    lastname:{
+        type:String,
+        required: true
+    },
+    gender:{
+        type:String,
+        required: true
+    },
+    batch:{
+        type:Number,
+        required: true
+    },
+    dateCreated:{
+        type: Date,
+        default: Date.now(),
+        required: true
+    },
+    deletedAt:{
+        type: Date,
+        default: null,
+        required: false
+    },
+    editedAt:{
+        type: Date,
+        default: null,
+        required: false
+    }
+  
+});
 
-Schema.statics.getLastStudent = async function() {
-   return await this.findOne().sort({_id:-1}).limit(1);
-}
+StudentSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) {
+        return next();
+    }
+    try {
+        const hash = await bcrypt.hashSync(this.password, 10);
+        this.password = hash;
+        next();
+    } catch (err) {
+        next(err);
+    }
+});
 
-Schema.statics.retrieveStudent = async function(){
-   return await this.find();
-}
-
-Schema.statics.getByEmail = async function(email) {
-   return await this.findOne({"email" : email});
-}
-
-module.exports = mongoose.model('subscriber', Schema);;
+module.exports = mongoose.model('Student', StudentSchema)
