@@ -1,4 +1,5 @@
 const Post = require('../model/Answer');
+const Student = require('../model/Student');
 
 function analytics(category, number) {
     return new Promise((resolve, reject) => {
@@ -75,6 +76,48 @@ function getStudentsInfo(data, projection){
     });
 }
 
+function getGenderCount(studentID){
+    return new Promise((resolve, reject) => {
+        
+        // let endDate = new Date().setDate(data.date.getDate()+14);
+        // let filter = {timestamp:{$gte:new Date(data.date), $lte:new Date(endDate)}};
+        // filter[`categories.academicLife.Q${data.questionNumber}`] = "bad";
+        // console.log(filter)
+        //kulang og match para sa date, batch
+        //mangayo ko date para sa match
+        Student.aggregate([
+            {
+                $match:{
+                   _id:{$in:studentID}
+                }
+            },
+            {
+              $group: {
+                    _id:'$gender',
+                    answers: { $sum: 1 },
+                    timestamp:{  $first: '$timestamp' }
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                   // description: { $ifNull: ["Q" + number, "Unspecified"] },
+                    count: 1,
+                    timestamp:1
+                   
+                }
+            },
+        ])
+        
+            .then((data) => {
+                resolve(data);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+}
+
 
 // function getStudentsInfo(id){
 //     return new Promise((resolve, reject) =>{
@@ -86,6 +129,7 @@ function getStudentsInfo(data, projection){
 module.exports = {
     analytics,
     getLength,
-    getStudentsInfo
+    getStudentsInfo,
+    getGenderCount
 
 };

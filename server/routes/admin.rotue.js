@@ -82,6 +82,7 @@ router.get('/report/summary/:number/students', (req, res) => {
          console.log(err);
          res.send(err);
     });
+    
 
 
 
@@ -92,13 +93,16 @@ router.get('/report/summary/:number', async (req, res) => {
     console.log(new Date('2019-12-07'));
     let number = req.params.number;
     let length = await query.getLength();
-    
+    let date = new Date('2019-12-07T00:01:07.146Z');
+    let filter = {date: date, questionNumber: 1, value: "bad"};
+
     if (req.params.number > 5) {
         query.analytics('centerLife', number)
             .then(data => {
                 res.json({
                     data: data,
-                    length: length
+                    length: length,
+                    gender:gender
                 });
             })
             .catch(err => {
@@ -110,13 +114,17 @@ router.get('/report/summary/:number', async (req, res) => {
             .then(data => {
                 res.json({
                     data: data,
-                    length: length
+                    length: length,
+                    gender:gender
                 });
             })
             .catch(err => {
                 res.send(err);
             });
     }
+    //use getStudentsInfo then use projection to get the student id then feed it to getGenderCount for aggregation to get the gender count 
+    //fix the getGenderCount
+
 
 
 
