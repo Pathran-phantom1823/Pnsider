@@ -14,6 +14,29 @@ function validate(data,password){
             resolve({
                 auth: true,
                 token: token,
+                username:data.username,
+                message: 'login successful'
+              });
+        }else{
+            reject({message:'wrong password'})
+        }
+    })
+            
+};
+
+function validateUser(data,password){
+    return new Promise((resolve, reject) =>{
+        if(password == data.password){
+            var token = jwt.sign({
+                _id: data._id,
+                username: data.username
+            },config.secret_key, {
+                expiresIn: 86400 
+            });
+            resolve({
+                auth: true,
+                token: token,
+                username:data.username,
                 message: 'login successful'
               });
         }else{
@@ -25,5 +48,6 @@ function validate(data,password){
 
 
 module.exports = {
-    validate
+    validate,
+    validateUser
 };

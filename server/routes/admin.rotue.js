@@ -4,6 +4,7 @@ const router = express.Router();
 const Student = require('../model/Student'); 
 const studentController = require('../modules/Student');
 const query = require('../modules/analytics');
+const Admin = require('../model/admin')
 
 
 
@@ -56,10 +57,9 @@ router.post('/student/delete/:id', (req, res) => {
 router.post('/student/update/:id', (req, res) => {
     let options = {
         editedAt: new Date(),
+        new:true
     };
-    Student.findByIdAndUpdate(req.params.id, options, {
-            new: true
-        })
+    Student.findByIdAndUpdate(req.params.id, req.body.data, options)
         .then(doc => {
             res.json(doc);
         })
@@ -150,16 +150,16 @@ router.get('/report/summary/:number', async (req, res) => {
 //         })
 // })
 
-// router.post('/createadmin',(req, res) =>{
-//     let student = new Staff(req.body);
-//     student.save()
-//         .then(() => {
-//             res.status(200).json({ message: 'successfull' })
-//         })
-//         .catch((err) => {
-//             res.status(400).json({ err: err.message })
-//         })
-// })
+router.post('/createadmin',(req, res) =>{
+    let student = new Admin(req.body);
+    student.save()
+        .then(() => {
+            res.status(200).json({ student })
+        })
+        .catch((err) => {
+            res.status(400).json({ err: err.message })
+        })
+})
 
 
 //,"categories.academicLife.Q6":"good"

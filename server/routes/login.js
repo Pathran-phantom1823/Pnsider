@@ -18,6 +18,7 @@ router.post('/', (req, res) => {
             }
 
             if (userinfo != "not found") {
+                if(req.body.username == "admin"){
                 account.validate(userinfo, req.body.password)
                     .then(data => {
                         res.json(data)
@@ -25,6 +26,15 @@ router.post('/', (req, res) => {
                     .catch(err => {
                         res.status(500).send(err)
                     });
+                }else{
+                    account.validateUser(userinfo, req.body.password)
+                    .then(data => {
+                        res.json(data)
+                    })
+                    .catch(err => {
+                        res.status(500).send(err)
+                    });
+                }
             } else {
                 res.status(404).send('user not found')
             }
@@ -34,5 +44,7 @@ router.post('/', (req, res) => {
     }
     login()
 });
+
+
 
 module.exports = router;
