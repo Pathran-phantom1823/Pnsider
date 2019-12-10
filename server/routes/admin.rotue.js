@@ -96,7 +96,7 @@ router.get('/report/summary/:number', async (req, res) => {
     let date = new Date('2019-12-07T00:01:07.146Z');
     let filter = {date: date, questionNumber: 1, value: "bad"};
 
-    if (req.params.number > 5) {
+    if (req.params.number < 7) {
         query.analytics('centerLife', number)
             .then(data => {
                 res.json({
