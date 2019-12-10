@@ -55,80 +55,76 @@ router.post('/student/delete/:id', (req, res) => {
 
 //NOTE:::::: new user info to be placed in the database
 router.post('/student/update/:id', (req, res) => {
-    let options = {
-        editedAt: new Date(),
-        new:true
-    };
-    Student.findByIdAndUpdate(req.params.id, req.body.data, options)
+    console.log(req.body, "Update Details")
+    req.body['editedAt'] = new Date()
+    Student.findByIdAndUpdate(req.params.id, req.body, {
+            new: true
+        })
         .then(doc => {
-            res.json(doc);
+            console.log("Update here")
+            res.json(doc)
         })
         .catch(err => {
-            res.status(400).send(err);
-        });
-});
+            console.log("Here")
+            res.status(400).send(err)
+        })
+})
 
 
-router.get('/report/summary/:number/students', (req, res) => {
-    let date = new Date('2019-12-07T00:01:07.146Z');
-    let filter = {date: date, questionNumber: 1, value: "bad"};
-    let projection = {studentID:1, timestamp:1};
-
-     query.getStudentsInfo(filter, projection)
-     .then(data =>{
-         res.json(data);
-     })
-     .catch(err =>{
-         console.log(err);
-         res.send(err);
-    });
-    
-
-
-
-});
-
-
-router.get('/report/summary/:number', async (req, res) => {
-    console.log(new Date('2019-12-07'));
-    let number = req.params.number;
-    let length = await query.getLength();
-    let date = new Date('2019-12-07T00:01:07.146Z');
-    let filter = {date: date, questionNumber: 1, value: "bad"};
-
-    if (req.params.number < 7) {
-        query.analytics('centerLife', number)
-            .then(data => {
-                res.json({
-                    data: data,
-                    length: length,
-                    gender:gender
-                });
-            })
-            .catch(err => {
-                res.send(err);
-            });
-
-    } else {
-        query.analytics('academicLife', number)
-            .then(data => {
-                res.json({
-                    data: data,
-                    length: length,
-                    gender:gender
-                });
-            })
-            .catch(err => {
-                res.send(err);
-            });
+router.get('/report/summary/:number/:description', (req, res) => {
+    console.log(req.params.number, req.params.description)
+    let date = new Date();
+    let filter;
+    console.log(req.params.number)
+    let number = req.params.number.substring(1,req.params.number.length)
+    if(number > 6){
+         filter = {category: 'academicLife',date: date, questionNumber: req.params.number, value: req.params.description};
+    }else{
+         filter = {category: 'centerLife',date: date, questionNumber: req.params.number, value: req.params.description};
     }
-    //use getStudentsInfo then use projection to get the student id then feed it to getGenderCount for aggregation to get the gender count 
-    //fix the getGenderCount
+    let projection = {studentID:1, timestamp:1};
+    //console.log(filter)
+     query.getStudents(filter, projection)
+     .then(data =>{
+         console.log(data)
+         res.json(data);
+     }) 
+     .catch(err =>{
+         console.log(err)
+         res.send(err)
+    })
 
 
 
+})
 
-});
+
+
+router.post('/report/summary/:number', async (req, res) => {
+    let number = req.params.number
+    let length = await query.getLength();
+    if(req.params.number < 7){
+        query.analytics('centerLife', number)
+        .then(data =>{
+         res.json({data:data, length:length})
+        })
+        .catch(err =>{
+            res.send(err)
+        })
+        
+    }else{
+        query.analytics('academicLife', number)
+        .then(data =>{
+            res.json({data:data, length:length})
+        })
+        .catch(err =>{
+            res.send(err)
+        })
+    }
+   
+
+
+})
 
 //after update password is not hashed anymore
 //all fields must have value otherwise it will become null

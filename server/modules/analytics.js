@@ -52,13 +52,12 @@ function getLength(){
     });
 }
 
-function getStudentsInfo(data, projection){
+function getStudents(data, projection){
     return new Promise((resolve, reject) =>{
         let select = 'firstname lastname gender batch id';
-        let endDate = new Date().setDate(data.date.getDate()+14);
-        let filter = {timestamp:{$gte:new Date(data.date), $lte:new Date(endDate)}};
-        filter[`categories.academicLife.Q${data.questionNumber}`] = "bad";
-
+        let filter = {timestamp:{$lte:data.date}};
+        filter[`categories.${data.category}.${data.questionNumber}`] = data.value;
+        console.log(filter,'filter')
         Post.find(filter, projection)
         .populate('studentID', select)
         .sort({timestamp: 1})
@@ -129,7 +128,7 @@ function getGenderCount(studentID){
 module.exports = {
     analytics,
     getLength,
-    getStudentsInfo,
+    getStudents,
     getGenderCount
 
 };
