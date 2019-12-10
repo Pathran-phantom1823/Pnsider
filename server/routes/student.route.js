@@ -28,9 +28,10 @@ router.post('/answers', (req, res) =>{
 });
 
 router.get('/previuosAnswers', (req, res) => {
-     let studentID;
-    Post.find({studentID: studentID})
+    let studentID;
+    Post.find(req.body.studentID)
     .then(doc =>{
+        console.log(doc)
         res.json(doc);
     })
     .catch(err =>{
