@@ -1,7 +1,7 @@
 //est
 const express = require('express');
 const router = express.Router();
-const Student = require('../model/Student'); 
+const Student = require('../model/Student');
 const studentController = require('../modules/Student');
 const query = require('../modules/analytics');
 
@@ -68,41 +68,43 @@ router.post('/student/update/:id', (req, res) => {
         });
 });
 
+//request body na date
+router.get('/report/summary/:number/:value/students', (req, res) => {
+    let date = new Date(req.body.date)
+    let filter = {
+        date: date,
+        questionNumber: 1,
+        value: req.params.value
+    };
+    let projection = {
+        studentID: 1,
+        timestamp: 1
+    };
 
-router.get('/report/summary/:number/students', (req, res) => {
-    let date = new Date('2019-12-07T00:01:07.146Z');
-    let filter = {date: date, questionNumber: 1, value: "bad"};
-    let projection = {studentID:1, timestamp:1};
-
-     query.getStudentsInfo(filter, projection)
-     .then(data =>{
-         res.json(data);
-     })
-     .catch(err =>{
-         console.log(err);
-         res.send(err);
-    });
-    
-
-
+    query.getStudentsInfo(filter, projection)
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => {
+            res.send(err);
+        });
 
 });
 
 
 router.get('/report/summary/:number', async (req, res) => {
-    console.log(new Date('2019-12-07'));
-    let number = req.params.number;
-    let length = await query.getLength();
-    let date = new Date('2019-12-07T00:01:07.146Z');
-    let filter = {date: date, questionNumber: 1, value: "bad"};
+    let number = req.params.number; 
+    //let test = new Date()
+    let length = await query.getLength(test);
+     let date = req.body.date;
+   
 
-    if (req.params.number < 7) {
-        query.analytics('centerLife', number)
+    if (req.params.number <= 6) {
+        query.analytics('centerLife', number, date)
             .then(data => {
                 res.json({
                     data: data,
-                    length: length,
-                    gender:gender
+                    length: length
                 });
             })
             .catch(err => {
@@ -110,20 +112,24 @@ router.get('/report/summary/:number', async (req, res) => {
             });
 
     } else {
-        query.analytics('academicLife', number)
+        query.analytics('academicLife', number, date)
             .then(data => {
                 res.json({
                     data: data,
-                    length: length,
-                    gender:gender
+                    length: length
                 });
             })
             .catch(err => {
                 res.send(err);
             });
     }
+
+
     //use getStudentsInfo then use projection to get the student id then feed it to getGenderCount for aggregation to get the gender count 
     //fix the getGenderCount
+
+
+
 
 
 

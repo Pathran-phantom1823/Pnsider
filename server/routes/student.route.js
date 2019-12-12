@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const Post = require(__dirname+'/../model/Answer');
-const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
 
 router.post('/answers', (req, res) =>{
-    let studentID = mongoose.Types.ObjectId('5deb002dc07ba02d50eecd88');
+    let student = jwt.decode(req.body.token)
+    let studentID = student._id
     let data = {
         studentID: studentID,
         categories:{
